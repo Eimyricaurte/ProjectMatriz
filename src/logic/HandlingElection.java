@@ -5,13 +5,11 @@ import java.util.SplittableRandom;
 
 public class HandlingElection {
 
-    private String[] candidates;
-    private String[] cities;
+    private String[] candidates = {"Carlos Santamaria", "Ana Maria Restrepo", "Alberto Rodriguez", "Rodrigo Fernandez", "Martha Solano"};
+    private String[] cities = {"city1", "city2","city3"};
     private int[][] votes;
 
     public HandlingElection() {
-        candidates = new String[5];
-        cities = new String[3];
         votes = new int[candidates.length][cities.length];
         loadElements(50,100);
     }
@@ -39,7 +37,27 @@ public class HandlingElection {
         return sb.toString();
     }
 
-    public String[][] matrixElections (String [] candidates, String [] cities, String [][] votes){
+    public String showCans(){
+        StringBuffer sb = new StringBuffer("[");
+        for (int i = 0; i < candidates.length; i++) {
+            sb.append(candidates[i] + ",");
+        }
+        String aux = sb.substring(0, sb.length() - 1);
+        aux += "]";
+        return aux.toString();
+    }
+
+    public String showCities(){
+        StringBuffer sb = new StringBuffer("[");
+        for (int i = 0; i < cities.length; i++) {
+            sb.append(cities[i] + ",");
+        }
+        String aux = sb.substring(0, sb.length() - 1);
+        aux += "]";
+        return aux.toString();
+    }
+
+    /*public String[][] matrixElections (String [] candidates, String [] cities, String [][] votes){
         String[][] matrix = new String[candidates.length + 2][cities.length + 1];
         for (int i = 0 ; i < matrix.length ; i++ ){
             for (int j = 0; j < matrix[i].length ; j++){
@@ -48,35 +66,101 @@ public class HandlingElection {
         }
 
         return null;
-    }
+    }*/
 
     public String winnerCandidate(){
 
-        return null;
+        int tVotes;
+        int maxVotes = 0;
+        String winner = "";
+        for (int i = 0; i < candidates.length; i++){
+            tVotes = 0;
+            for (int j = 0; j < cities.length; j++){
+                tVotes += votes[i][j];
+            }
+            if (tVotes > maxVotes){
+                maxVotes= tVotes;
+                winner = candidates[i];
+            }
+        }
+        return winner;
     }
 
-    public String[] elections(){
-        return null;
+    public String elections(){
+
+        int rows = candidates.length +1;
+        int cols = cities.length + 2;
+
+        String[][] results = new String[rows][cols];
+        for (int i = 0; i < candidates.length; i++){
+            results[i + 1][0] = candidates[i];
+        }
+
+        for (int j = 0; j < cities.length; j++){
+            results[0][j + 1] =  cities[j];
+        }
+
+        for (int i = 0; i< candidates.length; i++){
+            int total = 0;
+            for (int j = 0; j < cities.length; j++){
+                results[i + 1][j + 1] = Integer.toString(votes[i][j]);
+                total += votes[i][j];
+            }
+            results[i + 1][cols - 1] = Integer.toString(total);
+        }
+        StringBuilder sb = new StringBuilder();
+
+        for( int i = 0 ; i < results.length ; i++ ){
+            for( int j = 0 ; j < results[i].length ; j++ ){
+                sb.append( results[i][j] + "\t");
+            }
+            sb.append("\n");
+        }
+
+        return sb.toString();
     }
 
-    public int sumVotes(){
-        return 0;
+
+    public String  getMin( int can){
+
+        int p  = can -1;
+        int min= 999;
+        String minCity  = "";
+        for (int j = 0; j < cities.length; j++){
+            int vote = votes[p][j];
+            if (vote < min){
+                min = vote;
+                minCity =  cities[j];
+            }
+        }
+
+        return minCity;
+
     }
 
-    public String[] findCandidate(String candidate){
-        return null;
+    public String getMax(int can){
+        int p  = can -1;
+        int max= 0;
+        String maxCity  = "";
+        for (int j = 0; j < cities.length; j++){
+            int vote = votes[p][j];
+            if (vote > max){
+                max = vote;
+                maxCity =  cities[j];
+            }
+        }
+
+        return maxCity;
     }
 
-    public int getMin(){
-        return 0;
-    }
+    public double getAverage( int can){
+        int p = can - 1;
+        int sum = 0;
+        for (int i = 0; i < cities.length; i++){
+            sum += votes[p][i];
+        }
 
-    public int getMax(){
-        return 0;
-    }
-
-    public int getAverage(){
-        return 0;
+        return sum/3;
     }
 
     public String[][] sortCandidates(){
@@ -84,6 +168,9 @@ public class HandlingElection {
     }
 
     public String[][] totalCitiesVotes(){
+
+        String [][] citiesTotal = new String[2][cities.length];
+
         return null;
     }
 }
