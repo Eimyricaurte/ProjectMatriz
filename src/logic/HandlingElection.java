@@ -4,17 +4,28 @@ import java.util.Arrays;
 import java.util.Random;
 import java.util.SplittableRandom;
 
+/**
+ * class that manages the data of an election process
+ */
 public class HandlingElection {
 
     private String[] candidates = {"Carlos Santamaria", "Ana Maria Restrepo", "Alberto Rodriguez", "Rodrigo Fernandez", "Martha Solano"};
     private String[] cities = {"Tunja", "Sogamoso", "Duitama"};
     private int[][] votes;
 
+    /**
+     * Method that establishes the voting matrix
+     */
     public HandlingElection() {
         votes = new int[candidates.length][cities.length];
         loadElements(50, 100);
     }
 
+    /**
+     * Method for loading the elements of the voting matrix
+     * @param begin receives from where the range of the array goes
+     * @param end receives up to the range of the array
+     */
     private void loadElements(int begin, int end) {
 
         int min = begin <= end ? begin : end;
@@ -26,50 +37,10 @@ public class HandlingElection {
         }
     }
 
-    public String showVotes() {
-        StringBuilder sb = new StringBuilder();
-
-        for (int i = 0; i < votes.length; i++) {
-            for (int j = 0; j < votes[i].length; j++) {
-                sb.append(votes[i][j] + "\t");
-            }
-            sb.append("\n");
-        }
-
-        return sb.toString();
-    }
-
-    public String showCans() {
-        StringBuffer sb = new StringBuffer("[");
-        for (int i = 0; i < candidates.length; i++) {
-            sb.append(candidates[i] + ",");
-        }
-        String aux = sb.substring(0, sb.length() - 1);
-        aux += "]";
-        return aux.toString();
-    }
-
-    public String showCities() {
-        StringBuffer sb = new StringBuffer("[");
-        for (int i = 0; i < cities.length; i++) {
-            sb.append(cities[i] + ",");
-        }
-        String aux = sb.substring(0, sb.length() - 1);
-        aux += "]";
-        return aux.toString();
-    }
-
-    /*public String[][] matrixElections (String [] candidates, String [] cities, String [][] votes){
-        String[][] matrix = new String[candidates.length + 2][cities.length + 1];
-        for (int i = 0 ; i < matrix.length ; i++ ){
-            for (int j = 0; j < matrix[i].length ; j++){
-
-            }
-        }
-
-        return null;
-    }*/
-
+    /**
+     * Method to visualize the winning candidate
+     * @return the name of the winning candidate
+     */
     public String winnerCandidate() {
         int tVotes;
         int maxVotes = 0;
@@ -87,6 +58,11 @@ public class HandlingElection {
         return winner;
     }
 
+    /**
+     * Method that generates the matrix of candidates and cities with their respective votes and the total votes
+     * obtained by each candidate.
+     * @return the matrix table obtained.
+     */
     public String elections() {
 
         int rows = candidates.length + 1;
@@ -124,8 +100,12 @@ public class HandlingElection {
         return sb.toString();
     }
 
-
-    public String  getMin( int can){
+    /**
+     * Method showing the city in which the candidate received the least votes.
+     * @param can receives the option number of the candidate to be searched for.
+     * @return the city in which the candidate sought received the fewest votes.
+     */
+    public String getMin( int can){
         int p  = can -1;
         int min= 999;
         String minCity  = "";
@@ -136,15 +116,18 @@ public class HandlingElection {
                 minCity =  cities[j];
             }
         }
-
         return minCity;
-
     }
 
+    /**
+     * Method that shows the city in which the candidate received the most votes.
+     * @param can receives the option number of the candidate to be searched for.
+     * @return the city in which the sought-after candidate received the most votes.
+     */
     public String getMax(int can){
         int p  = can -1;
         int max= 0;
-        String maxCity  = "";
+        String maxCity = "";
         for (int j = 0; j < cities.length; j++){
             int vote = votes[p][j];
             if (vote > max){
@@ -156,6 +139,11 @@ public class HandlingElection {
         return maxCity;
     }
 
+    /**
+     * Method that shows the average number of votes obtained by the candidate.
+     * @param can receives the option number of the candidate to be searched for.
+     * @return the average number of votes obtained by the candidate.
+     */
     public double getAverage( int can){
         int p = can - 1;
         int sum = 0;
@@ -166,6 +154,10 @@ public class HandlingElection {
         return sum/3;
     }
 
+    /**
+     * Method that orders from highest to lowest number of votes obtained by each candidate.
+     * @return table with the name of each candidate and the total number of votes obtained by each one from highest to lowest.
+     */
     public String sortCandidates() {
 
         String [][] totalVC = new String[candidates.length + 1][2];
@@ -191,7 +183,6 @@ public class HandlingElection {
         for (int pivot = totalArray.length; pivot > 1; pivot--) {
             for (int index = 0; index < pivot - 1; index++) {
                 if (totalArray[index] < totalArray[index + 1]) {
-                    // Swap candidates and their total votes
                     int auxTotal = totalArray[index + 1];
                     totalArray[index + 1] = totalArray[index];
                     totalArray[index] = auxTotal;
@@ -215,6 +206,10 @@ public class HandlingElection {
         return sb.toString();
     }
 
+    /**
+     * Method showing the number of votes obtained in each city.
+     * @return table with the name of each city and total number of votes obtained.
+     */
     public String totalCitiesVotes() {
         String[][] citiesTotal = new String[2][cities.length+1];
 

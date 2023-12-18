@@ -7,20 +7,26 @@ import java.util.Arrays;
 import java.util.Random;
 import java.util.Scanner;
 
+/**
+ * The `Runner` class represents the main user interface for interacting with the system.
+ */
 public class Runner {
-    static Scanner sc = new Scanner(System.in);
-    static HandlingElection he = new HandlingElection();
+    Scanner sc = new Scanner(System.in);
+    HandlingElection he = new HandlingElection();
 
-    static Runner runner = new Runner();
+    /**
+     * The entry point of the application. Creates an instance of Runner and calls the menu method.
+     * @param args The command-line arguments.
+     */
     public static void main(String[] args) {
 
-        System.out.println(he.showCans());
-        System.out.println(he.showCities());
-        System.out.println(he.showVotes());
-        Runner.menu();
+        new Runner().menu();
     }
 
-    private static void menu() {
+    /**
+     * Displays the main menu and handles user input .
+     */
+    public void menu() {
         boolean sentinel = true ;
         while (sentinel){
 
@@ -41,7 +47,7 @@ public class Runner {
                         System.out.println("The winner is: " + he.winnerCandidate());
                         break;
                     case 3:
-                        Runner.findCandidate();
+                        findCandidate();
                         break;
                     case 4:
                         System.out.println(he.sortCandidates());
@@ -63,10 +69,13 @@ public class Runner {
         }
     }
 
-    public static void findCandidate(){
+    /**
+     * Method that displays the candidate menu and manages the candidate search with the user's input.
+     */
+    public void findCandidate(){
         int option1 = 0;
         do {
-            System.out.println("----------- Candidates ----------- \n" +
+            System.out.println("************ Candidates *********** \n" +
                     "1. Carlos Santamaria \n" +
                     "2. Ana Maria Restrepo \n" +
                     "3. Alberto Rodriguez \n" +
@@ -80,24 +89,24 @@ public class Runner {
                 switch (option) {
                     case 1:
                         System.out.println("Carlos Santamaria");
-                        runner.methods(option);
+                        methods(option);
                         break;
                     case 2:
                         System.out.println("Ana Maria Restrepo");
-                        runner.methods(option);
+                        methods(option);
 
                         break;
                     case 3:
                         System.out.println("Alberto Rodriguez");
-                        runner.methods(option);
+                        methods(option);
                         break;
                     case 4:
                         System.out.println("Rodrigo Fernandez");
-                        runner.methods(option);
+                        methods(option);
                         break;
                     case 5:
                         System.out.println("Martha Solano");
-                        runner.methods(option);
+                        methods(option);
                         break;
                     default:
                         System.err.println("Invalid Option");
@@ -111,6 +120,11 @@ public class Runner {
             }
         } while (option1 == 1);
     }
+
+    /**
+     * method that displays the required data for the candidate you have selected
+     * @param option receives the option of the candidate for whom you wish to obtain data
+     */
     public void methods(int option){
         System.out.println("The municipality in which it had the lowest number of votes is: " + he.getMin(option));
         System.out.println("The municipality in which it had the highest number of votes is: " + he.getMax(option));
